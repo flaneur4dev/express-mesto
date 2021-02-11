@@ -6,10 +6,9 @@ const pathToFile = path.join(__dirname, '..', 'data', 'users.json')
 
 usersRouter.get('/users', (req, res) => {
   fsPromises.readFile(pathToFile, 'utf-8')
-    .then(users => res.status(200).send(users))
-    .catch(err => console.log(err))
+    .then(users => res.status(200).send(JSON.parse(users)))
+    .catch(err => res.status(500).send({ "message": "Извините, проблемы с данными" }))
 })
-
 
 usersRouter.get('/users/:id', (req, res) => {
   fsPromises.readFile(pathToFile, 'utf-8')
@@ -18,7 +17,7 @@ usersRouter.get('/users/:id', (req, res) => {
       if (!user) return res.status(404).send({ "message": "Нет пользователя с таким id" });
       res.status(200).send(user)
     })
-    .catch(err => console.log(err))
+    .catch(err => res.status(500).send({ "message": "Извините, проблемы с данными" }))
 })
 
 module.exports = usersRouter
