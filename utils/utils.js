@@ -1,7 +1,5 @@
-const fsPromises = require('fs').promises;
-
-function getDataFromFile(pathToFile) {
-  return fsPromises.readFile(pathToFile, 'utf-8');
+module.exports = {
+  '400': { message: 'Переданы некорректные данные' },
+  '404': { message: 'Карточка или пользователь не найден' },
+  '500': { message: 'Проблемы с сервером, но мы скоро все исправим' }
 }
-
-module.exports = { getDataFromFile };
