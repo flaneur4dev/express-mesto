@@ -9,7 +9,7 @@ function getUsers(req, res) {
 
 function getUser(req, res) {
   User.findById(req.params.id)
-    .then(user => res.status(200).send(user))
+    .then(user => user ? res.status(200).send(user) : res.status(404).send(errors['404']))
     .catch(err => err.name === 'CastError' ? res.status(404).send(errors['404']) : res.status(500).send(errors['500']))
 }
 

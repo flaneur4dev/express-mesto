@@ -18,19 +18,19 @@ function createCard(req, res) {
 
 function deleteCard(req, res) {
   Card.findByIdAndDelete(req.params.id)
-    .then(() => res.status(200).send({ message: `Карточка с id: ${req.params.id} удалена`}))
+    .then(card => card ? res.status(200).send({ message: `Карточка с id: ${req.params.id} удалена`}) : res.status(404).send(errors['404']))
     .catch(err => err.name === 'CastError' ? res.status(404).send(errors['404']) : res.status(500).send(errors['500']))
 }
 
 function addLike(req, res) {
   Card.findByIdAndUpdate(req.params.id, { $addToSet: { likes: req.user._id } }, { new: true })
-    .then(card => res.status(200).send(card))
+    .then(card => card ? res.status(200).send(card) : res.status(404).send(errors['404']))
     .catch(err => err.name === 'CastError' ? res.status(404).send(errors['404']) : res.status(500).send(errors['500']))
 }
 
 function deleteLike(req, res) {
   Card.findByIdAndUpdate(req.params.id, { $pull: { likes: req.user._id } }, { new: true })
-    .then(card => res.status(200).send(card))
+    .then(card => card ? res.status(200).send(card) : res.status(404).send(errors['404']))
     .catch(err => err.name === 'CastError' ? res.status(404).send(errors['404']) : res.status(500).send(errors['500']))
 }
 
